@@ -29,6 +29,11 @@ namespace GlassBBS.Models
           new Board { BoardId = Guid.NewGuid().ToString(), Name = "Exhibitions", Description = "View selected works/exhibitions by various artists" },
           new Board { BoardId = Guid.NewGuid().ToString(), Name = "Jobs", Description = "Find relevant job info within the field." }
         );
+      builder.Entity<BoardUser>()
+        .HasData(
+          new BoardUser { BoardUserId = Guid.NewGuid().ToString(), Name = "Max" },
+          new BoardUser { BoardUserId = Guid.NewGuid().ToString(), Name = "Tom" }
+        );
     }
   }
 }
