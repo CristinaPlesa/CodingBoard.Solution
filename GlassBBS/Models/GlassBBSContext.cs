@@ -1,6 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace GlassBBS.Models
 {
@@ -16,18 +17,18 @@ namespace GlassBBS.Models
     public DbSet<Reply> Replies { get; set; }
     public DbSet<BoardPost> BoardPosts { get; set; }
     public DbSet<PostReply> PostReplies { get; set; }
-    
 
-    // protected override void OnModelCreating(ModelBuilder builder)
-    // {
-    //   builder.Entity<Animal>()
-    //     .HasData(
-    //       new Animal { AnimalId = 1, Name = "Matilda", Species = "Woolly Mammoth", Age = 7, Gender = "Female" },
-    //       new Animal { AnimalId = 2, Name = "Rexie", Species = "Dinosaur", Age = 10, Gender = "Female" },
-    //       new Animal { AnimalId = 3, Name = "Matilda", Species = "Dinosaur", Age = 2, Gender = "Female" },
-    //       new Animal { AnimalId = 4, Name = "Pip", Species = "Shark", Age = 4, Gender = "Male" },
-    //       new Animal { AnimalId = 5, Name = "Bartholomew", Species = "Dinosaur", Age = 22, Gender = "Male" }
-    //     );
-    // }
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+      builder.Entity<Board>()
+        .HasData(
+          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Residencies", Description = "Information regarding various residency opportunities." },
+          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Workshops", Description = "A selection of educational workshop offerings." },
+          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Education", Description = "A list of institutions offering higher-ed degrees in the field." },
+          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Scholarships", Description = "Scholarship info for workshops and universities." },
+          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Exhibitions", Description = "View selected works/exhibitions by various artists" },
+          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Jobs", Description = "Find relevant job info within the field." }
+        );
+    }
   }
 }
