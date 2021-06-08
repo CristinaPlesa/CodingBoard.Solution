@@ -5,7 +5,7 @@ using System;
 
 namespace GlassBBS.Models
 {
-  public class GlassBBSContext : DbContext
+  public class GlassBBSContext : IdentityDbContext<BoardUser>
   {
     public GlassBBSContext(DbContextOptions<GlassBBSContext> options) : base(options) {}
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -18,22 +18,22 @@ namespace GlassBBS.Models
     public DbSet<BoardPost> BoardPosts { get; set; }
     public DbSet<PostReply> PostReplies { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-      builder.Entity<Board>()
-        .HasData(
-          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Residencies", Description = "Information regarding various residency opportunities." },
-          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Workshops", Description = "A selection of educational workshop offerings." },
-          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Education", Description = "A list of institutions offering higher-ed degrees in the field." },
-          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Scholarships", Description = "Scholarship info for workshops and universities." },
-          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Exhibitions", Description = "View selected works/exhibitions by various artists" },
-          new Board { BoardId = Guid.NewGuid().ToString(), Name = "Jobs", Description = "Find relevant job info within the field." }
-        );
-      builder.Entity<BoardUser>()
-        .HasData(
-          new BoardUser { BoardUserId = Guid.NewGuid().ToString(), Name = "Max" },
-          new BoardUser { BoardUserId = Guid.NewGuid().ToString(), Name = "Tom" }
-        );
-    }
+    // protected override void OnModelCreating(ModelBuilder builder)
+    // {
+    //   builder.Entity<Board>()
+    //     .HasData(
+    //       new Board { BoardId = Guid.NewGuid().ToString(), Name = "Residencies", Description = "Information regarding various residency opportunities." },
+    //       new Board { BoardId = Guid.NewGuid().ToString(), Name = "Workshops", Description = "A selection of educational workshop offerings." },
+    //       new Board { BoardId = Guid.NewGuid().ToString(), Name = "Education", Description = "A list of institutions offering higher-ed degrees in the field." },
+    //       new Board { BoardId = Guid.NewGuid().ToString(), Name = "Scholarships", Description = "Scholarship info for workshops and universities." },
+    //       new Board { BoardId = Guid.NewGuid().ToString(), Name = "Exhibitions", Description = "View selected works/exhibitions by various artists" },
+    //       new Board { BoardId = Guid.NewGuid().ToString(), Name = "Jobs", Description = "Find relevant job info within the field." }
+    //     );
+    //   builder.Entity<BoardUser>()
+    //     .HasData(
+    //       new BoardUser { BoardUserId = Guid.NewGuid().ToString(), Name = "Max" },
+    //       new BoardUser { BoardUserId = Guid.NewGuid().ToString(), Name = "Tom" }
+    //     );
+    // }
   }
 }

@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 
 namespace GlassBBS.Models
 {
-  public class BoardUser
+  public class BoardUser : IdentityUser
   {
     public BoardUser()
     {
