@@ -11,6 +11,6 @@ namespace GlassBBS.Models
     }
     public string ReplyId { get; set; }
     public string Body { get; set; }
-    public string BoardUserId { get; set; }
+    public string ReplyAuthorId { get; set; }
   }
 }
