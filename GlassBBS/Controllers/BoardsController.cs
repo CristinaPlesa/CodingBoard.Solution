@@ -32,11 +32,12 @@ namespace GlassBBS.Controllers
     }
 
     [HttpGet("/api/board/{BoardId}/posts")]
-    public ActionResult<IEnumerable<BoardPost>> Posts(string BoardId)
+    public ActionResult<IEnumerable<Post>> Posts(string BoardId)
     {
       Console.WriteLine("HIT BOARD {0} /POSTS", BoardId);
-      var thePosts = _db.BoardPosts.Where(b => b.BoardId == BoardId).Include(join => join.Post).Where(bp => bp.BoardId == BoardId);
-      return thePosts.ToList();
+      Board b = _db.Boards.FirstOrDefault(b => b.BoardId == BoardId);
+      return b.Posts.ToList();
+
     }
   }
 }

@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System;
 
 namespace GlassBBS.Models
 {
@@ -11,7 +11,8 @@ namespace GlassBBS.Models
     }
     public string PostId { get; set; }
     public string Body { get; set; }
-    public virtual ICollection<PostReply> PostReplies { get; set; }
-    public virtual BoardUser PostAuthor { get; set; }
+    public virtual ICollection<Reply> Replies { get; set; }
+    public string BoardUserId { get; set; }
+    public string BoardId { get; set; }
   }
 }
