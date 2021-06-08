@@ -20,10 +20,11 @@ namespace GlassBBS
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-
       services.AddDbContext<GlassBBSContext>(opt =>
         opt.UseMySql(Configuration["ConnectionStrings:DefaultConnection"], ServerVersion.AutoDetect(Configuration["ConnectionStrings:DefaultConnection"])));
       services.AddControllers();
+      // register the swagger generator
+      services.AddSwaggerGen();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,6 +34,10 @@ namespace GlassBBS
       {
         app.UseDeveloperExceptionPage();
       }
+      // enable middleware to server generated swagger as JSON endpoint
+      app.UseSwagger();
+      // enable middleware to server swagger-ui on the swagger JSON endpoint
+      app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GlassBBS API"));
       // app.UseHttpsRedirection();
       app.UseRouting();
       app.UseAuthorization();
