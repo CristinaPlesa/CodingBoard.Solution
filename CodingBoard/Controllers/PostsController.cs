@@ -31,7 +31,7 @@ namespace CodingBoard.Controllers
     [HttpPost("/api/board/{boardId}/posts/new")]
     public async Task<ActionResult<Post>> NewPost(string body, string boardUserId, string boardId)
     {
-      Post newPost = new() { Body = body, BoardUserId = boardUserId, BoardId = boardId };
+      Post newPost = new() { Body = body, BoardUserId = boardUserId, BoardId = boardId, VoteCount = 0 };
       _db.Posts.Add(newPost);
       await _db.SaveChangesAsync();
       return CreatedAtAction("NewPost", new { id = newPost.PostId }, newPost);
@@ -77,6 +77,23 @@ namespace CodingBoard.Controllers
       }
     }
 
+    [HttpPost("/api/post/{postId}/upvote")]
+    public async Task<IActionResult> Upvote(string postId)
+    {
+      Post thisPost = _db.Posts.FirstOrDefault(r => r.PostId == postId);
+      thisPost.VoteCount++;
+      await _db.SaveChangesAsync();
+      return NoContent();
+    }
+
+    [HttpPost("/api/post/{postId}/downvote")]
+    public async Task<IActionResult> Downvote(string postId)
+    {
+      Post thisPost = _db.Posts.FirstOrDefault(r => r.PostId == postId);
+      thisPost.VoteCount--;
+      await _db.SaveChangesAsync();
+      return NoContent();
+    }
     private bool PostExists(string postId)
     {
       return _db.Posts.Any(p => p.PostId == postId);

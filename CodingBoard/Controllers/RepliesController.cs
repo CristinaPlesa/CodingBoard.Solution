@@ -31,7 +31,7 @@ namespace CodingBoard.Controllers
     public async Task<ActionResult<Reply>> NewReply(string body, string boardUserId, string boardId, string postId)
     {
       Console.WriteLine("HIT POST NEW REPLY");
-      Reply newReply = new() { Body = body, BoardUserId = boardUserId, PostId = postId };
+      Reply newReply = new() { Body = body, BoardUserId = boardUserId, PostId = postId, VoteCount = 0 };
       _db.Replies.Add(newReply);
       await _db.SaveChangesAsync();
       return CreatedAtAction("NewReply", new { id = newReply.ReplyId }, newReply);
@@ -53,9 +53,7 @@ namespace CodingBoard.Controllers
       _db.Entry(theReply).State = EntityState.Modified;
       try
       {
-        Console.WriteLine("BEFORE SAVE\n");
         await _db.SaveChangesAsync();
-        Console.WriteLine("AFTER SAVE\n");
       }
       catch (DbUpdateConcurrencyException)
       {
@@ -68,6 +66,24 @@ namespace CodingBoard.Controllers
           throw;
         }
       }
+      return NoContent();
+    }
+
+    [HttpPost("/api/reply/{replyId}/upvote")]
+    public async Task<IActionResult> Upvote(string replyId)
+    {
+      Reply thisReply = _db.Replies.FirstOrDefault(r => r.ReplyId == replyId);
+      thisReply.VoteCount++;
+      await _db.SaveChangesAsync();
+      return NoContent();
+    }
+
+    [HttpPost("/api/reply/{replyId}/downvote")]
+    public async Task<IActionResult> Downvote(string replyId)
+    {
+      Reply thisReply = _db.Replies.FirstOrDefault(r => r.ReplyId == replyId);
+      thisReply.VoteCount--;
+      await _db.SaveChangesAsync();
       return NoContent();
     }
 
