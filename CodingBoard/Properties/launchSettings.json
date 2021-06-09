@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "GlassBBS": {
+    "CodingBoard": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

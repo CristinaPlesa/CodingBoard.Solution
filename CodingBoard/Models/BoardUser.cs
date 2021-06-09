@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace GlassBBS.Models
+namespace CodingBoard.Models
 {
   public class BoardUser
   {

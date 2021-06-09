@@ -1,1 +1,1 @@
-# GlassBBS.Solution
+# CodingBoard.Solution

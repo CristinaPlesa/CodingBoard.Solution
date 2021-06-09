@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using GlassBBS.Models;
+using CodingBoard.Models;
 
-namespace GlassBBS
+namespace CodingBoard
 {
   public class Startup
   {
@@ -20,7 +20,7 @@ namespace GlassBBS
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddDbContext<GlassBBSContext>(opt =>
+      services.AddDbContext<CodingBoardContext>(opt =>
         opt.UseMySql(Configuration["ConnectionStrings:DefaultConnection"], ServerVersion.AutoDetect(Configuration["ConnectionStrings:DefaultConnection"])));
       services.AddControllers();
       // register the swagger generator
@@ -37,7 +37,7 @@ namespace GlassBBS
       // enable middleware to server generated swagger as JSON endpoint
       app.UseSwagger();
       // enable middleware to server swagger-ui on the swagger JSON endpoint
-      app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GlassBBS API"));
+      app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CodingBoard API"));
       // app.UseHttpsRedirection();
       app.UseRouting();
       app.UseAuthorization();

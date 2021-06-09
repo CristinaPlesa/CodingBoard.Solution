@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace GlassBBS.Models
+namespace CodingBoard.Models
 {
-  public class GlassBBSContext : DbContext
+  public class CodingBoardContext : DbContext
   {
-    public GlassBBSContext(DbContextOptions<GlassBBSContext> options) : base(options) { }
+    public CodingBoardContext(DbContextOptions<CodingBoardContext> options) : base(options) { }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
       optionsBuilder.UseLazyLoadingProxies();
