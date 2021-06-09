@@ -19,19 +19,19 @@ namespace CodingBoard.Controllers
       _db = db;
     }
 
-    [HttpGet("/api/board/{BoardId}/posts")]
-    public ActionResult<IEnumerable<Post>> Posts(string BoardId)
+    [HttpGet("/api/board/{boardId}/posts")]
+    public ActionResult<IEnumerable<Post>> Posts(string boardId)
     {
-      Console.WriteLine("HIT BOARD {0} /POSTS", BoardId);
-      Board b = _db.Boards.FirstOrDefault(b => b.BoardId == BoardId);
+      Console.WriteLine("HIT BOARD {0} /POSTS", boardId);
+      Board b = _db.Boards.FirstOrDefault(b => b.BoardId == boardId);
       return b.Posts.ToList();
 
     }
 
     [HttpPost("/api/board/{boardId}/posts/new")]
-    public async Task<ActionResult<Post>> NewPost(string body, string postAuthorId, string boardId)
+    public async Task<ActionResult<Post>> NewPost(string body, string boardUserId, string boardId)
     {
-      Post newPost = new() { Body = body, PostAuthorId = postAuthorId, BoardId = boardId };
+      Post newPost = new() { Body = body, BoardUserId = boardUserId, BoardId = boardId };
       _db.Posts.Add(newPost);
       await _db.SaveChangesAsync();
       return CreatedAtAction("NewPost", new { id = newPost.PostId }, newPost);
@@ -46,28 +46,35 @@ namespace CodingBoard.Controllers
       return NoContent();
     }
 
-    [HttpPut("/api/posts/edit/{postId}")]
+    [HttpPut("/api/board/{boardId}/posts/{postId}/edit")]
     public async Task<IActionResult> EditPost(string postId, Post thePost)
     {
-      Console.WriteLine("HIT PUT edit POSTS ROUTE {0} {1} ", postId, thePost);
-      // Post thisPost = _db.Posts.FirstOrDefault(p => p.PostId == postId);
-      _db.Entry(thePost).State = EntityState.Modified;
-      try
+      Console.WriteLine("HIT PUT edit POSTS ROUTE {0} {1} {2} {3} {4}", postId, thePost.PostId, thePost.Body, thePost.BoardUserId, thePost.BoardId);
+      Post thisPost = _db.Posts.FirstOrDefault(p => p.PostId == postId);
+      if (thisPost == null)
       {
-        await _db.SaveChangesAsync();
+        return NotFound();
       }
-      catch (DbUpdateConcurrencyException)
+      else
       {
-        if (PostExists(postId))
+        _db.Entry(thePost).State = EntityState.Modified;
+        try
         {
-          return NotFound();
+          await _db.SaveChangesAsync();
         }
-        else
+        catch (DbUpdateConcurrencyException)
         {
-          throw;
+          if (PostExists(postId))
+          {
+            return NotFound();
+          }
+          else
+          {
+            throw;
+          }
         }
+        return NoContent();
       }
-      return NoContent();
     }
 
     private bool PostExists(string postId)

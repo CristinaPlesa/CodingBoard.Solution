@@ -34,37 +34,37 @@ namespace CodingBoard.Migrations
                     b.HasData(
                         new
                         {
-                            BoardId = "54b81afa-0458-485c-922a-e1703c30022f",
+                            BoardId = "e4f3ca2d-bba4-4113-9885-9ac679c2b9ad",
                             Description = "A selection of upcoming coding events.",
                             Name = "Events"
                         },
                         new
                         {
-                            BoardId = "c3febe61-d0bf-45eb-8126-7e060ba5f1a0",
+                            BoardId = "bef4ef2d-c1ae-4a6b-a325-9e8c8e783fff",
                             Description = "A list of institutions offering higher-ed degrees in the field.",
                             Name = "Education"
                         },
                         new
                         {
-                            BoardId = "6497ef56-9b02-4913-8260-304c9090b07a",
+                            BoardId = "d67a6f22-c7b7-4215-b2a1-c41584dc36f6",
                             Description = "Memes",
                             Name = "Memes"
                         },
                         new
                         {
-                            BoardId = "20303354-6327-49be-9da2-ed2b5d81d41c",
+                            BoardId = "c50cbddc-122b-47db-8265-de0fbd46079c",
                             Description = "Scholarship info for bootcamps and universities.",
                             Name = "Scholarships"
                         },
                         new
                         {
-                            BoardId = "87ba011b-0221-4a3e-9f6f-14ff836cd0ea",
+                            BoardId = "5486c8c8-2a46-4f13-8fae-a8091a27c5de",
                             Description = "View selected works/projects by various coders",
                             Name = "Projects"
                         },
                         new
                         {
-                            BoardId = "855fb0cf-5cde-4b30-9a2a-14fb76615341",
+                            BoardId = "45ee40ba-6faf-4cdd-9380-2fe4901b8b51",
                             Description = "Find relevant job info within the field.",
                             Name = "Jobs"
                         });
@@ -85,12 +85,12 @@ namespace CodingBoard.Migrations
                     b.HasData(
                         new
                         {
-                            BoardUserId = "76022aa4-9a8c-4efc-ba7c-83b45946540e",
+                            BoardUserId = "d631bc96-b710-483f-aec3-e21ea39cc298",
                             Name = "Cristina"
                         },
                         new
                         {
-                            BoardUserId = "c1cd5759-4195-4341-83cf-7ea8ba273d99",
+                            BoardUserId = "0db6f085-8080-4d62-b2c9-b7e37b99ec1a",
                             Name = "Tom"
                         });
                 });
@@ -103,10 +103,10 @@ namespace CodingBoard.Migrations
                     b.Property<string>("BoardId")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Body")
+                    b.Property<string>("BoardUserId")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("PostAuthorId")
+                    b.Property<string>("Body")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("PostId");
@@ -121,14 +121,14 @@ namespace CodingBoard.Migrations
                     b.Property<string>("ReplyId")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
+                    b.Property<string>("BoardUserId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("Body")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("PostId")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("ReplyAuthorId")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("ReplyId");
 

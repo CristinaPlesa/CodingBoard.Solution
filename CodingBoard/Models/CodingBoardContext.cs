@@ -37,17 +37,21 @@ namespace CodingBoard.Models
   }
 }
 
-
 // BoardUsers
-// ''76022aa4-9a8c-4efc-ba7c-83b45946540e', 'Cristina'
-// 'c1cd5759-4195-4341-83cf-7ea8ba273d99', 'Tom'
+// '0db6f085-8080-4d62-b2c9-b7e37b99ec1a', 'Tom'
+// 'd631bc96-b710-483f-aec3-e21ea39cc298', 'Cristina'
 
-// Boards
-// '00da967a-652d-4c9d-b9ef-f1bea2111d1d','Residencies','Information regarding various residency opportunities.'
-// '227c89ae-57c0-4c71-ae95-8c8be11d511d','Workshops','A selection of educational workshop offerings.'
-// '2d993c3d-72d7-491f-97dc-3c38cfbcbb8e','Education','A list of institutions offering higher-ed degrees in the field.'
-// '68fb0ed7-d268-438c-859c-0f83cfe99dc4','Jobs','Find relevant job info within the field.'
-// '9dd9f397-76d8-41d6-8232-9fe67a09add2','Scholarships','Scholarship info for workshops and universities.'
-// 'e08c3b28-bcfa-4040-97fc-7acdf10328c7','Exhibitions','View selected works/exhibitions by various artists'
+//     "boardId": "45ee40ba-6faf-4cdd-9380-2fe4901b8b51",
+//     "name": "Jobs",
+//     "boardId": "5486c8c8-2a46-4f13-8fae-a8091a27c5de",
+//     "name": "Projects",
+//     "boardId": "bef4ef2d-c1ae-4a6b-a325-9e8c8e783fff",
+//     "name": "Education",
+//     "boardId": "c50cbddc-122b-47db-8265-de0fbd46079c",
+//     "name": "Scholarships",
+//     "boardId": "d67a6f22-c7b7-4215-b2a1-c41584dc36f6",
+//     "name": "Memes",
+//     "boardId": "e4f3ca2d-bba4-4113-9885-9ac679c2b9ad",
+//     "name": "Events",//     "description": "A selection of upcoming coding events.",
 
 // Posts
