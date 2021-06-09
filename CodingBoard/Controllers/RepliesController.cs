@@ -27,51 +27,53 @@ namespace CodingBoard.Controllers
       return post.Replies.ToList();
     }
 
-    // [HttpPost("/api/board/{boardId}/posts/{postId}/replies/new")]
-    // public async Task<ActionResult<Reply>> NewReply(string body, string replyAuthorId, string boardId, string postId)
-    // {
-    //   Reply newReply = new() { Body = body, ReplyAuthorId = replyAuthorId };
-    //   _db.Replies.Add(newReply);
-    //   await _db.SaveChangesAsync();
-    //   return CreatedAtAction("NewReply", new { id = newReply.ReplyId }, newReply);
-    // }
+    [HttpPost("/api/board/{boardId}/posts/{postId}/replies/new")]
+    public async Task<ActionResult<Reply>> NewReply(string body, string boardUserId, string boardId, string postId)
+    {
+      Console.WriteLine("HIT POST NEW REPLY");
+      Reply newReply = new() { Body = body, BoardUserId = boardUserId, PostId = postId };
+      _db.Replies.Add(newReply);
+      await _db.SaveChangesAsync();
+      return CreatedAtAction("NewReply", new { id = newReply.ReplyId }, newReply);
+    }
 
-    // [HttpDelete("/api/board/{boardId}/posts/{postId}/delete")]
-    // public async Task<IActionResult> DeletePost(string postId)
-    // {
-    //   Post thisPost = _db.Posts.FirstOrDefault(p => p.PostId == postId);
-    //   _db.Posts.Remove(thisPost);
-    //   await _db.SaveChangesAsync();
-    //   return NoContent();
-    // }
+    [HttpDelete("/api/board/{boardId}/posts/{postId}/replies/{replyId}/delete")]
+    public async Task<IActionResult> DeleteReply(string replyId)
+    {
+      Reply thisReply = _db.Replies.FirstOrDefault(r => r.ReplyId == replyId);
+      _db.Replies.Remove(thisReply);
+      await _db.SaveChangesAsync();
+      return NoContent();
+    }
 
-    // [HttpPut("/api/posts/edit/{postId}")]
-    // public async Task<IActionResult> EditPost(string postId, Post thePost)
-    // {
-    //   Console.WriteLine("HIT PUT edit POSTS ROUTE {0} {1} ", postId, thePost);
-    //   // Post thisPost = _db.Posts.FirstOrDefault(p => p.PostId == postId);
-    //   _db.Entry(thePost).State = EntityState.Modified;
-    //   try
-    //   {
-    //     await _db.SaveChangesAsync();
-    //   }
-    //   catch (DbUpdateConcurrencyException)
-    //   {
-    //     if (PostExists(postId))
-    //     {
-    //       return NotFound();
-    //     }
-    //     else
-    //     {
-    //       throw;
-    //     }
-    //   }
-    //   return NoContent();
-    // }
+    [HttpPut("/api/board/{boardId}/posts/{postId}/replies/{replyId}/edit")]
+    public async Task<IActionResult> EditReply(Reply theReply)
+    {
+      Console.WriteLine("HIT PUT edit REPLIES ROUTE. replyId: {0} \t body {1} \t board user id {2}", theReply.ReplyId, theReply.Body, theReply.BoardUserId);
+      _db.Entry(theReply).State = EntityState.Modified;
+      try
+      {
+        Console.WriteLine("BEFORE SAVE\n");
+        await _db.SaveChangesAsync();
+        Console.WriteLine("AFTER SAVE\n");
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (ReplyExists(theReply.ReplyId))
+        {
+          return NotFound();
+        }
+        else
+        {
+          throw;
+        }
+      }
+      return NoContent();
+    }
 
-    // private bool PostExists(string postId)
-    // {
-    //   return _db.Posts.Any(p => p.PostId == postId);
-    // }
+    private bool ReplyExists(string replyId)
+    {
+      return _db.Replies.Any(r => r.ReplyId == replyId);
+    }
   }
 }
