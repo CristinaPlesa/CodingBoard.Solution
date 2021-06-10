@@ -19,16 +19,15 @@ namespace CodingBoard.Controllers
       _db = db;
     }
 
-    [HttpGet("/api/board/{boardId}/posts/{postId}/replies")]
-    public ActionResult<IEnumerable<Reply>> Replies(string boardId, string postId)
+    [HttpGet("/api/posts/{postId}/replies")]
+    public ActionResult<IEnumerable<Reply>> Replies(string postId)
     {
-      Console.WriteLine("HIT BOARD {0} / POST {1} / all replies", boardId, postId);
       Post post = _db.Posts.FirstOrDefault(p => p.PostId == postId);
       return post.Replies.ToList();
     }
 
-    [HttpPost("/api/board/{boardId}/posts/{postId}/replies/new")]
-    public async Task<ActionResult<Reply>> NewReply(string body, string boardUserId, string boardId, string postId)
+    [HttpPost("/api/posts/{postId}/replies/new")]
+    public async Task<ActionResult<Reply>> NewReply(string body, string boardUserId, string postId)
     {
       Console.WriteLine("HIT POST NEW REPLY");
       Reply newReply = new() { Body = body, BoardUserId = boardUserId, PostId = postId, VoteCount = 0 };
@@ -37,7 +36,7 @@ namespace CodingBoard.Controllers
       return CreatedAtAction("NewReply", new { id = newReply.ReplyId }, newReply);
     }
 
-    [HttpDelete("/api/board/{boardId}/posts/{postId}/replies/{replyId}/delete")]
+    [HttpDelete("/api/replies/{replyId}/delete")]
     public async Task<IActionResult> DeleteReply(string replyId)
     {
       Reply thisReply = _db.Replies.FirstOrDefault(r => r.ReplyId == replyId);
@@ -46,7 +45,7 @@ namespace CodingBoard.Controllers
       return NoContent();
     }
 
-    [HttpPut("/api/board/{boardId}/posts/{postId}/replies/{replyId}/edit")]
+    [HttpPut("/api/replies/{replyId}/edit")]
     public async Task<IActionResult> EditReply(Reply theReply)
     {
       Console.WriteLine("HIT PUT edit REPLIES ROUTE. replyId: {0} \t body {1} \t board user id {2}", theReply.ReplyId, theReply.Body, theReply.BoardUserId);
@@ -69,7 +68,7 @@ namespace CodingBoard.Controllers
       return NoContent();
     }
 
-    [HttpPost("/api/reply/{replyId}/upvote")]
+    [HttpPost("/api/replies/{replyId}/upvote")]
     public async Task<IActionResult> Upvote(string replyId)
     {
       Reply thisReply = _db.Replies.FirstOrDefault(r => r.ReplyId == replyId);
@@ -78,7 +77,7 @@ namespace CodingBoard.Controllers
       return NoContent();
     }
 
-    [HttpPost("/api/reply/{replyId}/downvote")]
+    [HttpPost("/api/replies/{replyId}/downvote")]
     public async Task<IActionResult> Downvote(string replyId)
     {
       Reply thisReply = _db.Replies.FirstOrDefault(r => r.ReplyId == replyId);

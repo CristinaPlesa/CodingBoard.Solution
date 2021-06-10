@@ -19,16 +19,16 @@ namespace CodingBoard.Controllers
       _db = db;
     }
 
-    [HttpGet("/api/boards")]
+    [HttpGet("/api/boards/all")]
     public ActionResult<IEnumerable<Board>> Boards()
     {
       return _db.Boards.ToList();
     }
 
-    [HttpGet("/api/board/{Name}")]
-    public ActionResult<IEnumerable<Board>> GetBoardBy(string Name)
+    [HttpGet("/api/boards/{boardId}")]
+    public ActionResult<IEnumerable<Board>> GetBoardBy(string boardId)
     {
-      return _db.Boards.Where(entry => entry.Name == Name).ToList();
+      return _db.Boards.Where(entry => entry.BoardId == boardId).ToList();
     }
   }
 }
