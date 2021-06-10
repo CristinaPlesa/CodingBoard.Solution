@@ -19,14 +19,14 @@ namespace CodingBoard.Controllers
       _db = db;
     }
 
-    [HttpGet("/api/posts/{postId}/replies")]
+    [HttpGet("/api/replies/{postId}")]
     public ActionResult<IEnumerable<Reply>> Replies(string postId)
     {
       Post post = _db.Posts.FirstOrDefault(p => p.PostId == postId);
       return post.Replies.ToList();
     }
 
-    [HttpPost("/api/posts/{postId}/replies/new")]
+    [HttpPost("/api/replies/{postId}")]
     public async Task<ActionResult<Reply>> NewReply(string body, string boardUserId, string postId)
     {
       Console.WriteLine("HIT POST NEW REPLY");
@@ -36,7 +36,7 @@ namespace CodingBoard.Controllers
       return CreatedAtAction("NewReply", new { id = newReply.ReplyId }, newReply);
     }
 
-    [HttpDelete("/api/replies/{replyId}/delete")]
+    [HttpDelete("/api/replies/{replyId}")]
     public async Task<IActionResult> DeleteReply(string replyId)
     {
       Reply thisReply = _db.Replies.FirstOrDefault(r => r.ReplyId == replyId);
@@ -45,7 +45,7 @@ namespace CodingBoard.Controllers
       return NoContent();
     }
 
-    [HttpPut("/api/replies/{replyId}/edit")]
+    [HttpPut("/api/replies/{replyId}")]
     public async Task<IActionResult> EditReply(Reply theReply)
     {
       Console.WriteLine("HIT PUT edit REPLIES ROUTE. replyId: {0} \t body {1} \t board user id {2}", theReply.ReplyId, theReply.Body, theReply.BoardUserId);
@@ -68,20 +68,18 @@ namespace CodingBoard.Controllers
       return NoContent();
     }
 
-    [HttpPost("/api/replies/{replyId}/upvote")]
-    public async Task<IActionResult> Upvote(string replyId)
+    [HttpPost("/api/vote/{replyId}")]
+    public async Task<IActionResult> Vote(string replyId, string upOrDown)
     {
       Reply thisReply = _db.Replies.FirstOrDefault(r => r.ReplyId == replyId);
-      thisReply.VoteCount++;
-      await _db.SaveChangesAsync();
-      return NoContent();
-    }
-
-    [HttpPost("/api/replies/{replyId}/downvote")]
-    public async Task<IActionResult> Downvote(string replyId)
-    {
-      Reply thisReply = _db.Replies.FirstOrDefault(r => r.ReplyId == replyId);
-      thisReply.VoteCount--;
+      if (upOrDown == "up")
+      {
+        thisReply.VoteCount++;
+      }
+      else
+      {
+        thisReply.VoteCount--;
+      }
       await _db.SaveChangesAsync();
       return NoContent();
     }
