@@ -1,0 +1,14 @@
+@model List<CodingClient.Models.Board>;
+
+<div class="container-fluid">
+  <h1>Boards - All</h1>
+
+  <div class="container">
+    @foreach (Board b in Model)
+    {
+      <h3>@Html.ActionLink(@b.Name, b.BoardId, "boards")</h3>
+
+      <p>@b.Description</p>
+    }
+  </div>
+</div>

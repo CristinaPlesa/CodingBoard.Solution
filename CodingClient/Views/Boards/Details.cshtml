@@ -1,0 +1,38 @@
+@model List<CodingClient.Models.Board>;
+
+<div class="container-fluid">
+  <h1>Boards - @Model[0].Name</h1>
+
+  <div class="container">
+    <h3>@Model[0].Name</h3>
+    <p>@Model[0].Description</p>
+    <div class="container">
+      @if (@Model[0].Posts.Count == 0)
+      {
+        <p>No Posts!</p>
+      }
+      else
+      {
+        @foreach (Post p in Model[0].Posts)
+        {
+          <div class="card">
+            @Html.ActionLink(@p.Body, @p.PostId, "posts")
+          </div>
+        }
+      }
+    </div>
+    <div class="container">
+      <form action="/posts/create" method="post">
+        <div class="form-group">
+          <label for="body">Content</label>
+          <input type="text" name="body" id="body" placeholder="type here..." required="required" />
+          <input type="hidden" name="VoteCount" value=1 />
+          <input type="hidden" name="BoardUserId" value="One" />
+          <input type="hidden" name="BoardId" value="@Model[0].BoardId" />
+          <button class="btn btn-block btn-primary" type="submit">New Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

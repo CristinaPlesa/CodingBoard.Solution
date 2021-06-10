@@ -19,23 +19,60 @@ namespace CodingBoard.Controllers
       _db = db;
     }
 
+    // [HttpGet]
+    // public async Task<ActionResult<IEnumerable<Animal>>> Get(string species, string gender, string name)
+    // {
+    //   var query = _db.Animals.AsQueryable();
+
+    //   if (species != null)
+    //   {
+    //     query = query.Where(entry => entry.Species == species);
+    //   }
+
+    //   if (gender != null)
+    //   {
+    //     query = query.Where(entry => entry.Gender == gender);
+    //   }    
+
+    //   if (name != null)
+    //   {
+    //     query = query.Where(entry => entry.Name == name);
+    //   }      
+
+    //   return await query.ToListAsync();
+    // }
+
     [HttpGet("/api/posts/{boardId}")]
-    public ActionResult<IEnumerable<Post>> Posts(string boardId)
+    public async Task<ActionResult<IEnumerable<Post>>> Posts(string boardId)
     {
       Console.WriteLine("HIT BOARD {0} /POSTS", boardId);
-      Board b = _db.Boards.FirstOrDefault(b => b.BoardId == boardId);
-      return b.Posts.ToList();
-
+      var query = _db.Posts.AsQueryable();
+      query = query.Where(p => p.BoardId == boardId);
+      return await query.ToListAsync();
     }
 
-    [HttpPost("/api/posts/{boardId}")]
-    public async Task<ActionResult<Post>> NewPost(string body, string boardUserId, string boardId)
+
+    [HttpPost("/api/posts/{newPost}")]
+    public async Task<ActionResult<Post>> NewPost(Post newPost)
     {
-      Post newPost = new() { Body = body, BoardUserId = boardUserId, BoardId = boardId, VoteCount = 0 };
-      _db.Posts.Add(newPost);
+      Console.WriteLine("\n\nAPI - creating new post {0} {1} {2}", newPost.Body, newPost.BoardUserId, newPost.BoardId);
+      Post generatedPost = new() { Body = newPost.Body, BoardUserId = newPost.BoardUserId, BoardId = newPost.BoardId, VoteCount = 0 };
+      Console.WriteLine("API before NEW POST CREATED {0} {1} {2}", generatedPost.Body, generatedPost.BoardId, generatedPost.BoardUserId);
+      _db.Posts.Add(generatedPost);
+      Console.WriteLine("\nAPI after add new post");
       await _db.SaveChangesAsync();
-      return CreatedAtAction("NewPost", new { id = newPost.PostId }, newPost);
+      Console.WriteLine("\nAPI AFTER SAVING TO DB, new post ID: {0}", generatedPost.PostId);
+      return CreatedAtAction(nameof(NewPost), new { id = generatedPost.PostId }, generatedPost);
     }
+    // [HttpPost]
+    // public async Task<ActionResult<Post>> NewPost(Post post)
+    // {
+    //   Console.WriteLine("\n\n\t posts controller on the back end - new post route {0}", post);
+    //   _db.Posts.Add(post);
+    //   await _db.SaveChangesAsync();
+
+    //   return CreatedAtAction(nameof(NewPost), new { id = post.PostId }, post);
+    // }
 
     [HttpDelete("/api/posts/{postId}")]
     public async Task<IActionResult> DeletePost(string postId)

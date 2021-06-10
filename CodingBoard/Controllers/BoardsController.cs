@@ -28,6 +28,7 @@ namespace CodingBoard.Controllers
     [HttpGet("/api/boards/{boardId}")]
     public ActionResult<IEnumerable<Board>> GetBoardBy(string boardId)
     {
+      Console.WriteLine("HIST API/BOARDS/BOARDID");
       return _db.Boards.Where(entry => entry.BoardId == boardId).ToList();
     }
   }

@@ -1,5 +1,6 @@
+using Newtonsoft;
 using Newtonsoft.Json;
-using Newtonson.Linq;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System;
 
@@ -11,7 +12,6 @@ namespace CodingClient.Models
     public string Name { get; set; }
     public string Description { get; set; }
     public virtual ICollection<Post> Posts { get; set; }
-
     public static List<Board> Get(string resource, string id)
     {
       var apiCallTask = ApiHelper.Get(resource, id);
