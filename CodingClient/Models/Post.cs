@@ -18,5 +18,33 @@ namespace CodingClient.Models
     public string BoardUserId { get; set; }
     public string BoardId { get; set; }
     public int VoteCount { get; set; }
+
+    public static List<Post> Get(string resource, string id)
+    {
+      var apiCallTask = ApiHelper.Get(resource, id);
+      var result = apiCallTask.Result;
+
+      JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
+      List<Post> postList = JsonConvert.DeserializeObject<List<Post>>(jsonResponse.ToString());
+
+      return postList;
+    }
+
+    public static void Post(Post post)
+    {
+      string jsonPost = JsonConvert.SerializeObject(post);
+      var apiCallTask = ApiHelper.Post(jsonPost);
+    }
+
+    public static void Put(Post post)
+    {
+      string jsonPost = JsonConvert.SerializeObject(post);
+      var apiCallTask = ApiHelper.Put(post.PostId, jsonPost);
+    }
+
+    public static void Delete(string resource, string id)
+    {
+      var apiCallTask = ApiHelper.Delete(resource, id);
+    }
   }
 }
